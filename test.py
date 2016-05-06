@@ -14,12 +14,18 @@ def main():
   root='mscoco/train2014/'
   data = json.load(open("annotations/captions_val2014.json", 'r'))
   images=[] #IMAGES
+  no_of_captions=3
+  rooms=['bedroom','bathroom','kitchen','living room']
   L=[]
+  annotations=data['annotations']
+  annotations.sort(key=lambda x: x.image_id)
 
   for v in data['images']:
   	images.append(v['file_name'])
  
   for v in data['annotations']:
+  	sentence=text.split(v)
+  	if v in rooms
   	print v
   
   f = h5py.File(output, "w")
