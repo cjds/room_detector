@@ -13,6 +13,8 @@ def main():
   output='captions.h5'
   root='mscoco/train2014/'
   data = json.load(open("annotations/captions_val2014.json", 'r'))
+
+  rooms=['bathroom','bedroom','classroom','kitchen','living room']
   images=[] #IMAGES
   no_of_captions=3
   rooms=['bedroom','bathroom','kitchen','living room']
