@@ -7,28 +7,36 @@ import string
 import h5py
 import numpy as np
 from scipy.misc import imread, imresize
+from os import listdir
+from os.path import isfile, join
+
 
 def main():
 
   output='captions.h5'
   root='mscoco/train2014/'
   data = json.load(open("annotations/captions_val2014.json", 'r'))
-
-  rooms=['bathroom','bedroom','classroom','kitchen','living room']
+  root= ''
+  rooms=['bathroom','bedroom','classroom','kitchen','living room'] #list of rooms
   images=[] #IMAGES
   no_of_captions=3
-  rooms=['bedroom','bathroom','kitchen','living room']
   L=[]
-  annotations=data['annotations']
-  annotations.sort(key=lambda x: x.image_id)
+  for index,room in enumerate(rooms):
+  	output_vector=[]
+	image_list = [(root+room+'/'+f) for f in listdir(root+room) ]
+	output_vector.extend([0]*len(rooms))
+	output_vector[index]=1
+	L.extend(output_vector*len(image_list))
+	images.extend(image_list)
 
-  for v in data['images']:
-  	images.append(v['file_name'])
+  N=len(images)
+  # for v in data['images']:
+  # 	images.append(v['file_name'])
  
-  for v in data['annotations']:
-  	sentence=text.split(v)
-  	if v in rooms
-  	print v
+  # for v in data['annotations']: 	
+  # 	sentence=v['caption'].split(' ')
+  # 	if not len([1 for val in sentence if val in rooms])==0:
+  # 		print v
   
   f = h5py.File(output, "w")
 
@@ -36,7 +44,7 @@ def main():
   f.create_dataset("labels", dtype='uint32', data=L)
 
   dset = f.create_dataset("images", (N,3,256,256), dtype='uint8') # space for resized images
-  for img in images:
+  for i,img in enumerate(images):
     # load the image
     I = imread(os.path.join(root, img))
     try:
